@@ -1,0 +1,21 @@
+---
+- hosts: ubuntu
+  remote_user: ubuntu
+  become: yes
+
+  tasks:
+    - name: Create group "devs"
+      ansible.builtin.group:
+        name: devs
+        state: present
+
+    - name: Create user Dan
+      ansible.builtin.user:
+        name: Dan
+        group: devs
+
+    - name: Create user Jake
+      ansible.builtin.user:
+        name: Jake
+        shell: /bin/bash
+        group: devs    

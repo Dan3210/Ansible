@@ -1,0 +1,39 @@
+---
+- hosts: amazon-linux
+  remote_user: ec2-user
+  become: yes
+
+  tasks:
+    - name: Install Docker
+      dnf:
+        name: docker
+        state: latest
+        update_cache: yes
+
+    - name: Start Docker
+      systemd:
+        name: docker
+        state: started
+        enabled: yes
+
+    - name: Install Apache server (httpd)
+      dnf:
+        name: httpd
+        state: latest
+        update_cache: yes
+
+    - name: Start and enable autostart of Apache server
+      systemd:
+        name: httpd
+        state: started
+        enabled: yes
+
+    - name: Ensure httpd service is reloaded
+      ansible.builtin.service:
+        name: httpd
+        state: reloaded
+
+    - name: Ensure httpd service is started if not started
+      ansible.builtin.service:
+        name: httpd
+        state: started

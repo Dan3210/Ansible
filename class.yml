@@ -1,0 +1,64 @@
+- hosts: "amazon-linux"
+  remote_user: ec2-user
+  become: yes
+  tasks:
+    - name: Install web-server and nodejs
+      dnf:
+        name: "{{ item }}"
+        state: latest
+      loop:
+        - httpd
+        - nodejs
+
+    - name: Start and enable autostart of web-server
+      systemd:
+        name: httpd
+        state: started
+        enabled: yes
+
+    - name: Status of web-server
+      ansible.builtin.service:
+        name: httpd
+        state: reloaded
+
+    - name: Create names.txt with content on Amazon Linux
+      copy:
+        dest: ~/names.txt  # Replace with the desired path
+        content: |
+          Dan
+          Liz
+          Arun
+          Brett
+
+- hosts: "ubuntu"
+  remote_user: ubuntu
+  become: yes
+  tasks:
+    - name: Install web-server and nodejs
+      apt:
+        name: "{{ item }}"
+        state: latest
+      loop:
+        - apache2
+        - nodejs
+
+    - name: Start and enable autostart of web-server
+      systemd:
+        name: apache2
+        state: started
+        enabled: yes
+
+    - name: Status of web-server
+      ansible.builtin.service:
+        name: apache2
+        state: reloaded
+
+    - name: Create names.txt with content on Ubuntu
+      copy:
+        dest: ~/names.txt  # Replace with the desired path
+        content: |
+          Dan
+          Liz
+          Arun
+          Brett
+      
