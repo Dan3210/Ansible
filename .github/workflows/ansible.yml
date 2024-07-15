@@ -20,9 +20,9 @@ jobs:
     
     - name: Clone ansible repository
       env:
-        GH_TOKEN: ${{ secrets.SSH_PRIVATE_KEY }}
+        SSH_PRIVATE_KEY: ${{ secrets.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 }}
       run: |
-        git clone https://$SSH_PRIVATE_KEY@github.com/Dan3210/Ansible.git
+        git clone https://$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@github.com/Dan3210/Ansible.git
     
     - name: Access cloned repo
       run: |
