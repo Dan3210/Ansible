@@ -37,43 +37,11 @@
         regexp: '^Liz'
         line: 'Elizabeth'
 
-- hosts: "ubuntu"
-  remote_user: ubuntu
-  vars:
-    last_name: "Costin"
-  become: yes
-  tasks:
-    - name: Install web-server and nodejs
-      apt:
-        name: "{{ item }}"
-        state: latest
-      loop:
-        - apache2
-        - nodejs
 
-    - name: Start and enable autostart of web-server
-      systemd:
-        name: apache2
-        state: started
-        enabled: yes
-
-    - name: Status of web-server
-      ansible.builtin.service:
-        name: apache2
-        state: reloaded
-
-    - name: Create names.txt with content on Ubuntu
-      copy:
-        dest: ~/names.txt  # Replace with the desired path
-        content: |
-          Dan
-          Liz
-          Arun
-          Brett
-    
-    - name: Ensure SELinux is set to enforcing mode
+   
+      
+    - name: Append a line to change the variable some_variable
       ansible.builtin.lineinfile:
         path: /root/names.txt
-        regexp: '^Liz'
-        line: 'Elizabeth'
-      
+        line: "{{last_name}}"
+        insertafter: EOF
