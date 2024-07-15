@@ -43,5 +43,5 @@ jobs:
     
     - name: Run Ansible Playbook
       run: |
-        ansible-playbook -i inventory httpd-ubuntu.yml --ssh-common-args='-o StrictHostKeyChecking=no'
+        ansible-playbook -i inventory class.yml --ssh-common-args='-o StrictHostKeyChecking=no'
         
