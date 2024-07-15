@@ -24,7 +24,7 @@ jobs:
         depth: 1
         branch: 'main'
         owner: 'Dan3210'
-        repository: 'Ansible'
+        repository: 'ansible'
     
     - name: Access cloned repo
       run: |
