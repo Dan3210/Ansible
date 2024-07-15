@@ -18,29 +18,30 @@ jobs:
       with:
         python-version: 3.8  # Choose a Python version compatible with Ansible
     
-    - name: Clone ansible
-      uses: GuillaumeFalourd/clone-github-repo-action@v2.3
-      with:
-        depth: 1
-        branch: 'main'
-        owner: 'Dan3210'
-        repository: 'Ansible'
-    
-    - name: Access cloned repo
-      run: |
-         cd ansible
-         ls -la
+    - name: Debug GitHub Token
+      run: echo "GIT_TOKEN is set"
+      env:
+        GH_TOKEN: ${{ secrets.GIT_TOKEN }}
 
+    - name: Clone Ansible repository
+      env:
+        GH_TOKEN: ${{ secrets.GIT_TOKEN }}
+      run: |
+        echo "Cloning the repository"
+        git clone https://$GIT_TOKEN@github.com/Dan3210/Ansible.git
+        cd Ansible
+        ls -la
+    
     - name: Install Ansible
       run: |
         pip install ansible
-
+    
     - name: Set up SSH
       uses: webfactory/ssh-agent@v0.9.0
       with:
-        ssh-private-key: ${{ secrets.GIT_TOKEN }}
-    
+        ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
     
     - name: Run Ansible Playbook
       run: |
-        ansible-playbook -i inventory httpd-ubuntu.yml --ssh-common-args='-o StrictHostKeyChecking=no'
+        cd Ansible
+        ansible-playbook -i inventory test.yml
